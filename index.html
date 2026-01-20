@@ -9,19 +9,20 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap');
-        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #020617; overflow: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; overflow: hidden; }
         .glass-card {
-            background: rgba(15, 15, 25, 0.7);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 10, 20, 0.75);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 50px rgba(79, 70, 229, 0.15);
         }
         .brush-font {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -0.05em;
-            text-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+            letter-spacing: -0.02em;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -34,11 +35,11 @@
             const [active, setActive] = useState('ishtar');
             const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
             
-            // Database semua karakter sesuai file di GitHub kamu
             const characters = {
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
-                    main: "ishtarutama.jpg", bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
+                    main: "ishtarutama.png", // Format sudah diubah ke PNG sesuai permintaan
+                    bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
                     clips: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"]
                 },
                 ling: {
@@ -56,48 +57,50 @@
             const char = characters[active];
 
             return (
-                <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center p-4 transition-all duration-1000" 
+                <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center p-4 md:p-10 transition-all duration-1000" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
-                    <div className="absolute inset-0 bg-black/60"></div>
+                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
-                    {/* Container Utama (Gojo Style) */}
-                    <div className="glass-card relative z-10 w-full max-w-6xl rounded-[50px] p-8 md:p-14 flex flex-col md:flex-row min-h-[600px]">
+                    {/* Container besar yang menyisakan sedikit background */}
+                    <div className="glass-card relative z-10 w-full max-w-7xl h-full min-h-[85vh] rounded-[40px] p-8 md:p-16 flex flex-col md:flex-row items-center">
                         
-                        {/* Sisi Kiri: Teks & Klip */}
-                        <div className="w-full md:w-3/5 flex flex-col justify-between z-20">
+                        {/* Info Section */}
+                        <div className="w-full md:w-3/5 h-full flex flex-col justify-between z-20">
                             
-                            {/* Navigasi / Switcher */}
-                            <div className="flex justify-between items-center mb-10">
-                                <img src={baseUrl + char.logo} className="h-12 object-contain" />
-                                <div className="flex gap-6 text-[10px] font-black tracking-widest">
+                            {/* Navbar */}
+                            <div className="flex justify-between items-center mb-12">
+                                <img src={baseUrl + char.logo} className="h-10 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]" />
+                                <div className="flex gap-8 text-[10px] font-black tracking-[0.3em] text-gray-400">
                                     {Object.keys(characters).map(id => (
                                         <button key={id} onClick={() => setActive(id)} 
-                                                className={`transition-all ${active === id ? 'text-blue-400 scale-110' : 'text-gray-500 hover:text-white'}`}>
+                                                className={`hover:text-white transition-all ${active === id ? 'text-indigo-400 border-b-2 border-indigo-500 pb-1' : ''}`}>
                                             {id.toUpperCase()}
                                         </button>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* Nama Besar */}
-                            <div className="mb-10">
-                                <p className="text-blue-400 text-sm font-black tracking-[0.4em] mb-4 uppercase">{char.sub}</p>
-                                <h1 className="brush-font text-8xl md:text-[10rem] text-white leading-[0.85]">{char.name}</h1>
+                            {/* Nama yang sudah disesuaikan ukurannya agar tidak terlalu besar */}
+                            <div className="mb-12">
+                                <p className="text-indigo-300 text-xs font-bold tracking-[0.5em] mb-4 uppercase opacity-80">{char.sub}</p>
+                                <h1 className="brush-font text-6xl md:text-8xl text-white leading-tight uppercase">
+                                    {char.name}
+                                </h1>
                             </div>
 
-                            {/* Popular Clips */}
-                            <div>
-                                <div className="flex justify-between items-center mb-4 pr-10">
-                                    <h3 className="text-white text-lg font-bold">Popular clips</h3>
-                                    <span className="text-gray-500 text-xs font-bold cursor-pointer hover:text-white">View All</span>
+                            {/* Klip Galeri */}
+                            <div className="w-full">
+                                <div className="flex justify-between items-end mb-6">
+                                    <h3 className="text-white text-lg font-extrabold tracking-tight">Popular clips</h3>
+                                    <span className="text-gray-500 text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:text-indigo-400 transition">View All</span>
                                 </div>
-                                <div className="flex gap-4">
+                                <div className="flex gap-5">
                                     {char.clips.map((img, i) => (
-                                        <div key={i} className="relative w-40 h-28 rounded-2xl overflow-hidden border border-white/10 group shadow-2xl">
-                                            <img src={baseUrl + img} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                                                <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center pl-1 shadow-lg">
-                                                    <svg viewBox="0 0 24 24" className="w-4 h-4 text-black fill-current"><path d="M8 5v14l11-7z"/></svg>
+                                        <div key={i} className="relative w-44 h-32 rounded-3xl overflow-hidden border border-white/5 group shadow-2xl">
+                                            <img src={baseUrl + img} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
+                                                <div className="w-9 h-9 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-xl group-hover:bg-indigo-500/80 transition-all">
+                                                    <svg viewBox="0 0 24 24" className="w-4 h-4 text-white fill-current ml-1"><path d="M8 5v14l11-7z"/></svg>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,9 +109,9 @@
                             </div>
                         </div>
 
-                        {/* Sisi Kanan: Karakter Utama Overflow (Menonjol Keluar) */}
-                        <div className="absolute -right-10 -top-20 md:-right-24 md:-top-40 h-[115%] w-auto z-10 pointer-events-none">
-                            <img src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_35px_50px_rgba(0,0,0,0.7)]" />
+                        {/* Karakter Utama dengan efek Overflow */}
+                        <div className="absolute -right-5 -top-12 md:-right-20 md:-top-32 h-[110%] w-auto z-10 pointer-events-none">
+                            <img src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.8)]" />
                         </div>
 
                     </div>
