@@ -3,168 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Waifu Dashboard - Dark Planet</title>
+    <title>Premium Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <style>
-        body { background-color: #050505; color: white; overflow-x: hidden; }
-        .glass-card {
-            background: rgba(10, 10, 20, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        body { background-color: #020617; color: white; margin: 0; font-family: sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
 <body>
     <div id="root"></div>
-
     <script type="text/babel">
-        const { useState, useEffect } = React;
-        const { motion, AnimatePresence } = FramerMotion;
-
+        const { useState } = React;
         const charData = {
-            ishtar: {
-                name: "イシュタル ISHTAR",
-                sub: "Goddess",
-                traits: "Goddess • Luxurion • Tsundere",
-                logo: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ishtarlogo.webp",
-                bg: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ishtarbackground.jpg",
-                main: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ishtarutama.jpg",
-                gallery: [
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ishtar1.jpg",
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ishtar2.jpg",
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ishtar3.jpg"
-                ]
-            },
-            ling: {
-                name: "令 LING",
-                sub: "The Dreamer of Sui",
-                traits: "Dragon • Poet • Wine",
-                logo: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/linglogo.webp",
-                bg: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/lingbackground.webp",
-                main: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/lingutama.webp",
-                gallery: [
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ling1.jpg",
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ling2.jpg",
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/ling3.jpg"
-                ]
-            },
-            helm: {
-                name: "ヘルム HELM",
-                sub: "Captain of the Aegis",
-                traits: "Squad Captain • Disciplined • Elegant",
-                logo: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/helmlogo.webp",
-                bg: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/helmbackground.jpg",
-                main: "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/helmutama.webp",
-                gallery: [
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/helm1.jpg",
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/helm2.jpg",
-                    "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/helm3.jpg"
-                ]
-            }
+            ishtar: { name: "ISHTAR", sub: "Goddess", main: "ishtarutama.jpg", bg: "ishtarbackground.jpg", gallery: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"] },
+            ling: { name: "LING", sub: "Dreamer", main: "lingutama.webp", bg: "lingbackground.webp", gallery: ["ling1.jpg", "ling2.jpg", "ling3.jpeg"] },
+            helm: { name: "HELM", sub: "Captain", main: "helmutama.webp", bg: "helmbackground.jpg", gallery: ["helm1.jpg", "helm2.jpeg", "helm3.jpg"] }
         };
-
         function App() {
-            const [hasStarted, setHasStarted] = useState(false);
-            const [activeChar, setActiveChar] = useState('ishtar');
-
-            if (!hasStarted) {
-                return (
-                    <div className="h-screen w-full flex items-center justify-center bg-black">
-                        <motion.button 
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setHasStarted(true)}
-                            className="px-12 py-4 bg-transparent border-2 border-blue-500 text-blue-400 rounded-full font-bold tracking-widest hover:bg-blue-500 hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                        >
-                            DISCOVER
-                        </motion.button>
-                    </div>
-                );
-            }
-
-            const char = charData[activeChar];
-
+            const [active, setActive] = useState('ishtar');
+            const char = charData[active];
+            const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
             return (
-                <div className="relative min-h-screen w-full overflow-hidden font-sans">
-                    {/* Background Sequence */}
-                    <AnimatePresence mode="wait">
-                        <motion.div 
-                            key={`bg-${activeChar}`}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.4 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 1 }}
-                            className="absolute inset-0 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${char.bg})` }}
-                        />
-                    </AnimatePresence>
-
-                    {/* Content Container */}
-                    <div className="relative z-10 container mx-auto px-4 h-screen flex flex-col justify-center items-center">
-                        
-                        <div className="glass-card w-full max-w-5xl rounded-3xl p-8 md:p-12 mt-20 relative">
-                            {/* Main Character Overflow */}
-                            <AnimatePresence mode="wait">
-                                <motion.img 
-                                    key={`main-${activeChar}`}
-                                    initial={{ y: 100, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 0.3, duration: 0.8 }}
-                                    src={char.main}
-                                    className="absolute -top-48 right-0 md:right-10 w-64 md:w-[450px] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]"
-                                />
-                            </AnimatePresence>
-
-                            {/* Text Info */}
-                            <motion.div 
-                                initial={{ x: -50, opacity: 0 }}
-                                animate={{ x: 0, opacity: 1 }}
-                                transition={{ delay: 0.6 }}
-                                className="max-w-md"
-                            >
-                                <img src={char.logo} className="h-16 mb-6 object-contain" />
-                                <h1 className="text-4xl md:text-6xl font-black mb-2 tracking-tighter text-white">{char.name}</h1>
-                                <p className="text-blue-400 font-bold mb-4 tracking-widest">{char.sub}</p>
-                                <div className="inline-block px-4 py-1 rounded-full bg-blue-900/40 border border-blue-500/30 text-xs text-blue-200 mb-8">
-                                    {char.traits}
-                                </div>
-
-                                {/* Iconic Moment / Gallery */}
-                                <div className="mb-8">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h3 className="text-sm font-bold tracking-widest">ICONIC MOMENT</h3>
-                                        <button className="text-[10px] text-gray-400 hover:text-white transition-colors">EXPLORE MORE</button>
+                <div className="h-screen w-full flex items-center justify-center bg-cover bg-center transition-all duration-700" style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
+                    <div className="absolute inset-0 bg-black/60"></div>
+                    <div className="glass relative z-10 w-full max-w-4xl rounded-3xl p-8 flex flex-col md:flex-row items-center gap-10 m-4">
+                        <img src={baseUrl + char.main} className="w-48 md:w-80 drop-shadow-2xl" />
+                        <div className="flex-1 text-center md:text-left">
+                            <h1 className="text-6xl font-black italic text-blue-400 mb-2">{char.name}</h1>
+                            <p className="text-gray-400 tracking-[0.3em] text-sm mb-10">{char.sub.toUpperCase()}</p>
+                            <div className="flex justify-center md:justify-start gap-4 mb-10">
+                                {char.gallery.map(img => (
+                                    <div key={img} className="w-16 h-24 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                                        <img src={baseUrl + img} className="w-full h-full object-cover" />
                                     </div>
-                                    <div className="flex gap-4">
-                                        {char.gallery.map((img, i) => (
-                                            <motion.div 
-                                                key={i}
-                                                initial={{ scale: 0, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                transition={{ delay: 0.8 + (i * 0.1) }}
-                                                className="w-20 h-24 md:w-28 md:h-32 rounded-xl overflow-hidden border border-white/10"
-                                            >
-                                                <img src={img} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* Character Switcher */}
-                            <div className="flex gap-6 mt-8">
-                                {Object.keys(charData).map(c => (
-                                    <button 
-                                        key={c}
-                                        onClick={() => setActiveChar(c)}
-                                        className={`text-xs font-bold tracking-widest transition-all ${activeChar === c ? 'text-blue-400' : 'text-gray-500 hover:text-white'}`}
-                                    >
-                                        {c.toUpperCase()}
-                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex justify-center md:justify-start gap-4 border-t border-white/10 pt-8">
+                                {Object.keys(charData).map(id => (
+                                    <button key={id} onClick={() => setActive(id)} className={`px-6 py-2 rounded-full text-[10px] font-black tracking-widest transition-all ${active === id ? 'bg-blue-600 text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}>{id.toUpperCase()}</button>
                                 ))}
                             </div>
                         </div>
@@ -172,9 +51,7 @@
                 </div>
             );
         }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
 </html>
