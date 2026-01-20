@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Integrated Dashboard</title>
+    <title>Premium Character Dashboard 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -13,7 +13,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; overflow: hidden; }
         
-        /* Kotak tengah dengan sisa ujung sekitar 60px */
         .glass-card {
             background: rgba(10, 10, 20, 0.85);
             backdrop-filter: blur(40px);
@@ -30,6 +29,16 @@
             letter-spacing: -0.02em;
             text-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
+
+        /* Efek cahaya di belakang karakter */
+        .char-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+            z-index: 5;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -40,7 +49,6 @@
 
         function App() {
             const [active, setActive] = useState('ishtar');
-            const [isAnimating, setIsAnimating] = useState(false);
             const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
             
             const characters = {
@@ -48,72 +56,88 @@
                     name: "ISHTAR", sub: "Goddess of Beauty",
                     main: "ishtarutama.png", bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
                     clips: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"],
-                    pos: { top: "-top-20", right: "-right-32", height: "h-[125%]" }
+                    pos: { top: "-top-24", right: "-right-32", height: "h-[130%]" }
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
                     main: "lingutama.webp", bg: "lingbackground.webp", logo: "linglogo.webp",
                     clips: ["ling1.jpg", "ling2.jpg", "ling3.jpeg"],
-                    pos: { top: "-top-32", right: "-right-40", height: "h-[140%]" }
+                    pos: { top: "-top-36", right: "-right-44", height: "h-[145%]" }
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
                     main: "helmutama.webp", bg: "helmbackground.jpg", logo: "helmlogo.webp",
                     clips: ["helm1.jpg", "helm2.jpeg", "helm3.jpg"],
-                    pos: { top: "-top-24", right: "-right-32", height: "h-[130%]" }
+                    pos: { top: "-top-28", right: "-right-32", height: "h-[135%]" }
                 }
             };
 
             const char = characters[active];
-
-            const changeChar = (id) => {
-                if (id === active) return;
-                setActive(id);
-            };
+            // Mengambil 2 karakter selain yang sedang aktif untuk ditaruh di bawah
+            const otherChars = Object.keys(characters).filter(id => id !== active);
 
             return (
                 <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center p-[60px] transition-all duration-1000" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
-                    <div className="absolute inset-0 bg-black/80 backdrop-blur-lg"></div>
+                    <div className="absolute inset-0 bg-black/85 backdrop-blur-xl"></div>
 
-                    <div className="glass-card relative z-10 rounded-[60px] p-12 md:p-24 flex flex-col md:flex-row items-center overflow-visible">
+                    <div className="glass-card relative z-10 rounded-[60px] p-12 md:p-20 flex flex-col md:flex-row items-center overflow-visible">
                         
                         {/* Konten Kiri */}
                         <div className="w-full md:w-3/5 h-full flex flex-col justify-between z-20">
                             
-                            {/* Navbar & Switcher */}
-                            <div className="flex justify-between items-center mb-12">
-                                <img src={baseUrl + char.logo} className="h-20 md:h-24 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]" />
-                                <div className="flex gap-8 text-[10px] font-black tracking-[0.3em] text-gray-500">
-                                    {Object.keys(characters).map(id => (
-                                        <button key={id} onClick={() => changeChar(id)} 
-                                                className={`hover:text-white transition-all uppercase ${active === id ? 'text-indigo-400 border-b-2 border-indigo-500 pb-2' : ''}`}>
-                                            {id}
-                                        </button>
+                            {/* Logo Besar */}
+                            <div className="mb-8">
+                                <motion.img 
+                                    key={active + "logo"}
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    src={baseUrl + char.logo} 
+                                    className="h-20 md:h-24 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]" 
+                                />
+                            </div>
+
+                            {/* Nama & Subtitle */}
+                            <div className="mb-8">
+                                <motion.p 
+                                    key={active + "sub"}
+                                    initial={{ opacity: 0 }} animate={{ opacity: 0.8 }}
+                                    className="text-indigo-400 text-sm font-bold tracking-[0.6em] mb-4 uppercase">{char.sub}</motion.p>
+                                <motion.h1 
+                                    key={active + "name"}
+                                    initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}
+                                    className="brush-font text-6xl md:text-7xl text-white leading-tight uppercase tracking-tighter">
+                                    {char.name}
+                                </motion.h1>
+                            </div>
+
+                            {/* Character Select (2 Char di Bawah) */}
+                            <div className="mb-10">
+                                <p className="text-gray-500 text-[10px] font-black tracking-widest uppercase mb-4">Select Agent</p>
+                                <div className="flex gap-6">
+                                    {otherChars.map(id => (
+                                        <motion.div 
+                                            key={id}
+                                            whileHover={{ scale: 1.05 }}
+                                            onClick={() => setActive(id)}
+                                            className="group relative w-40 h-24 rounded-3xl overflow-hidden border-2 border-white/5 cursor-pointer hover:border-indigo-500 transition-all shadow-xl"
+                                        >
+                                            <img src={baseUrl + characters[id].main} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-3">
+                                                <span className="text-white text-[10px] font-black tracking-widest">{id.toUpperCase()}</span>
+                                            </div>
+                                        </motion.div>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* Nama */}
-                            <div className="mb-12">
-                                <p className="text-indigo-400 text-sm font-bold tracking-[0.6em] mb-4 uppercase opacity-90">{char.sub}</p>
-                                <h1 className="brush-font text-6xl md:text-8xl text-white leading-tight uppercase tracking-tighter">
-                                    {char.name}
-                                </h1>
-                            </div>
-
-                            {/* Clips Section */}
+                            {/* Clips Section (Kecil di Pojok) */}
                             <div className="w-full">
-                                <h3 className="text-white text-xl font-extrabold tracking-tight mb-8">Popular clips</h3>
-                                <div className="flex gap-8">
+                                <h3 className="text-white text-lg font-extrabold tracking-tight mb-4">Recent Clips</h3>
+                                <div className="flex gap-4">
                                     {char.clips.map((img, i) => (
-                                        <div key={i} className="relative w-56 h-36 rounded-[40px] overflow-hidden border border-white/5 group shadow-2xl">
-                                            <img src={baseUrl + img} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-125" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-center">
-                                                <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center border border-white/20 shadow-2xl transition-transform group-hover:scale-110">
-                                                    <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current ml-1"><path d="M8 5v14l11-7z"/></svg>
-                                                </div>
-                                            </div>
+                                        <div key={i} className="relative w-32 h-20 rounded-2xl overflow-hidden border border-white/5 group shadow-lg">
+                                            <img src={baseUrl + img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
                                         </div>
                                     ))}
                                 </div>
@@ -122,13 +146,14 @@
 
                         {/* Karakter Utama dengan Animasi Transisi */}
                         <div className={`absolute ${char.pos.right} ${char.pos.top} ${char.pos.height} w-auto z-10 pointer-events-none`}>
+                            <div className="char-glow -right-20 top-40"></div>
                             <AnimatePresence mode="wait">
                                 <motion.img 
                                     key={active}
-                                    initial={{ opacity: 0, x: 100, scale: 0.9 }}
-                                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                                    exit={{ opacity: 0, x: 150, scale: 0.95 }}
-                                    transition={{ duration: 0.6, ease: "easeOut" }}
+                                    initial={{ opacity: 0, x: 100, scale: 0.9, filter: "brightness(0)" }}
+                                    animate={{ opacity: 1, x: 0, scale: 1, filter: "brightness(1)" }}
+                                    exit={{ opacity: 0, x: 150, scale: 0.95, transition: { duration: 0.4 } }}
+                                    transition={{ duration: 0.7, ease: "easeOut" }}
                                     src={baseUrl + char.main} 
                                     className="h-full w-auto object-contain drop-shadow-[0_60px_100px_rgba(0,0,0,0.9)]" 
                                 />
