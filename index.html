@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Dashboard 2026</title>
+    <title>Premium Cinematic Dashboard 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -13,14 +13,13 @@
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; overflow: hidden; }
         
         .glass-card {
-            background: rgba(10, 10, 20, 0.9);
-            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 20, 0.92);
+            backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            /* Jarak sisa ujung 60px di setiap sisi */
+            /* Sisa ujung 60px di setiap sisi */
             width: calc(100vw - 120px); 
             height: calc(100vh - 120px); 
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-            transition: all 0.5s ease;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
         }
         
         .brush-font {
@@ -28,17 +27,20 @@
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.02em;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
-        /* Animasi muncul sederhana tanpa Framer Motion */
         .char-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+            animation: fadeIn 0.6s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .img-glow {
+            filter: drop-shadow(0 0 30px rgba(79, 70, 229, 0.3));
         }
     </style>
 </head>
@@ -56,19 +58,21 @@
                     name: "ISHTAR", sub: "Goddess of Beauty",
                     main: "ishtarutama.png", bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
                     clips: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"],
-                    pos: "bottom-0 -right-20 h-[115%]" // Posisi lebih ke tengah/bawah
+                    pos: "bottom-0 -right-20 h-[115%]"
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
                     main: "lingutama.webp", bg: "lingbackground.webp", logo: "linglogo.webp",
                     clips: ["ling1.jpg", "ling2.jpg", "ling3.jpeg"],
-                    pos: "-bottom-10 -right-32 h-[135%]" // Ling dibuat sangat besar
+                    // Diturunkan dan dikecilkan 15% dari h-[135%] sebelumnya
+                    pos: "-bottom-24 -right-24 h-[120%]" 
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
                     main: "helmutama.webp", bg: "helmbackground.jpg", logo: "helmlogo.webp",
                     clips: ["helm1.jpg", "helm2.jpeg", "helm3.jpg"],
-                    pos: "bottom-0 -right-20 h-[120%]" // Helm lebih ke tengah
+                    // Diturunkan 20px dan dikecilkan 15% dari h-[120%] sebelumnya
+                    pos: "-bottom-5 -right-20 h-[105%]" 
                 }
             };
 
@@ -80,62 +84,67 @@
                      style={{ backgroundImage: `url(${baseUrl + char.bg})`, transition: 'background-image 0.8s ease' }}>
                     <div className="absolute inset-0 bg-black/80"></div>
 
-                    <div className="glass-card relative z-10 rounded-[50px] p-10 md:p-16 flex flex-col md:flex-row items-center overflow-visible">
+                    <div className="glass-card relative z-10 rounded-[60px] p-12 md:p-20 flex flex-col md:flex-row items-center overflow-visible">
                         
-                        {/* Area Konten Kiri */}
+                        {/* Konten Kiri */}
                         <div className="w-full md:w-3/5 h-full flex flex-col justify-between z-20">
                             
-                            {/* Logo Game (Diperbesar) */}
-                            <div className="mb-6">
-                                <img src={baseUrl + char.logo} className="h-20 md:h-24 object-contain" />
+                            {/* Logo Game (Diperbesar lgi) */}
+                            <div className="mb-8">
+                                <img src={baseUrl + char.logo} className="h-28 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
                             </div>
 
-                            {/* Info Nama */}
-                            <div className="mb-6">
-                                <p className="text-indigo-400 text-xs font-bold tracking-[0.5em] mb-2 uppercase">{char.sub}</p>
-                                <h1 className="brush-font text-5xl md:text-7xl text-white leading-tight uppercase">
+                            {/* Info Karakter */}
+                            <div className="mb-10">
+                                <p className="text-indigo-400 text-sm font-bold tracking-[0.6em] mb-4 uppercase opacity-80">{char.sub}</p>
+                                <h1 className="brush-font text-6xl md:text-8xl text-white leading-tight uppercase">
                                     {char.name}
                                 </h1>
                             </div>
 
-                            {/* SELEKSI KARAKTER (Di Bawah Nama) */}
-                            <div className="mb-8">
-                                <p className="text-gray-500 text-[10px] font-black tracking-widest uppercase mb-3">Switch Agent</p>
-                                <div className="flex gap-4">
+                            {/* SELEKSI AGEN (Ukuran Visual) */}
+                            <div className="mb-12">
+                                <p className="text-gray-500 text-[10px] font-black tracking-widest uppercase mb-4">Select Next Agent</p>
+                                <div className="flex gap-6">
                                     {otherChars.map(id => (
                                         <div 
                                             key={id}
                                             onClick={() => setActive(id)}
-                                            className="group relative w-36 h-20 rounded-2xl overflow-hidden border border-white/10 cursor-pointer hover:border-indigo-500 transition-all shadow-lg"
+                                            className="group relative w-48 h-28 rounded-3xl overflow-hidden border-2 border-white/5 cursor-pointer hover:border-indigo-500 transition-all shadow-2xl"
                                         >
-                                            <img src={baseUrl + characters[id].main} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" />
-                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                                <span className="text-white text-[9px] font-black tracking-widest uppercase">{id}</span>
+                                            <img src={baseUrl + characters[id].main} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-center">
+                                                <span className="text-white text-[11px] font-black tracking-[0.2em] uppercase">{id}</span>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* Recent Clips (Di Pojok Bawah) */}
+                            {/* Thumbnail Clips (Diperbesar Memanjakan Mata) */}
                             <div className="w-full">
-                                <h3 className="text-white text-sm font-bold tracking-widest uppercase mb-4 opacity-70">Recent Clips</h3>
-                                <div className="flex gap-4">
+                                <h3 className="text-white text-lg font-extrabold tracking-tight mb-6">Featured Clips</h3>
+                                <div className="flex gap-6">
                                     {char.clips.map((img, i) => (
-                                        <div key={i} className="w-24 h-16 rounded-xl overflow-hidden border border-white/5">
-                                            <img src={baseUrl + img} className="w-full h-full object-cover" />
+                                        <div key={i} className="relative w-52 h-36 rounded-[32px] overflow-hidden border border-white/10 group shadow-2xl">
+                                            <img src={baseUrl + img} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+                                                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white fill-current ml-1"><path d="M8 5v14l11-7z"/></svg>
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Karakter Utama (Gaya Overflow) */}
-                        <div className={`absolute z-10 pointer-events-none ${char.pos}`}>
+                        {/* Karakter Utama (Custom Posisi Ling & Helm) */}
+                        <div className={`absolute z-10 pointer-events-none transition-all duration-700 ${char.pos}`}>
                             <img 
                                 key={active}
                                 src={baseUrl + char.main} 
-                                className="h-full w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.8)] char-fade-in" 
+                                className="h-full w-auto object-contain img-glow char-fade-in" 
                             />
                         </div>
 
