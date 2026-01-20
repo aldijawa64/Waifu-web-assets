@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Dashboard 2026</title>
+    <title>Premium Landing Page 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; overflow: hidden; }
         
-        /* Kotak tengah dengan sisa ujung 20px */
+        /* Kotak tengah dengan sisa ujung sekitar 60px (p-15 equivalent) */
         .glass-card {
-            background: rgba(10, 10, 20, 0.8);
+            background: rgba(10, 10, 20, 0.85);
             backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            width: calc(100vw - 40px);
-            height: calc(100vh - 40px);
-            box-shadow: 0 0 60px rgba(79, 70, 229, 0.2);
+            width: calc(100vw - 120px); /* 60px kiri + 60px kanan */
+            height: calc(100vh - 120px); /* 60px atas + 60px bawah */
+            box-shadow: 0 0 80px rgba(79, 70, 229, 0.25);
         }
         
         .brush-font {
@@ -27,7 +28,7 @@
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.02em;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
     </style>
 </head>
@@ -35,81 +36,63 @@
     <div id="root"></div>
     <script type="text/babel">
         const { useState } = React;
+        const { motion, AnimatePresence } = FramerMotion;
 
         function App() {
-            const [active, setActive] = useState('ishtar');
+            const [isVisible, setIsVisible] = useState(true);
             const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
             
-            const characters = {
-                ishtar: {
-                    name: "ISHTAR", sub: "Goddess of Beauty",
-                    main: "ishtarutama.png", bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
-                    clips: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"],
-                    // Penyesuaian posisi: diturunkan (top) & diperbesar (height)
-                    pos: { top: "-top-10", right: "-right-10", height: "h-[110%]" }
-                },
-                ling: {
-                    name: "LING", sub: "The Dreamer of Sui",
-                    main: "lingutama.webp", bg: "lingbackground.webp", logo: "linglogo.webp",
-                    clips: ["ling1.jpg", "ling2.jpg", "ling3.jpeg"],
-                    // Ling dibuat jauh lebih besar (height 130%)
-                    pos: { top: "-top-24", right: "-right-24", height: "h-[135%]" }
-                },
-                helm: {
-                    name: "HELM", sub: "Aegis Captain",
-                    main: "helmutama.webp", bg: "helmbackground.jpg", logo: "helmlogo.webp",
-                    clips: ["helm1.jpg", "helm2.jpeg", "helm3.jpg"],
-                    // Helm diturunkan agar lebih ke tengah
-                    pos: { top: "-top-10", right: "-right-10", height: "h-[115%]" }
-                }
+            // Fokus 1 Landing Page: Ishtar
+            const char = {
+                name: "ISHTAR",
+                sub: "Goddess of Beauty",
+                main: "ishtarutama.png",
+                bg: "ishtarbackground.jpg",
+                logo: "ishtarlogo.webp",
+                clips: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"]
             };
 
-            const char = characters[active];
+            const toggleCharacter = () => {
+                setIsVisible(false);
+                setTimeout(() => setIsVisible(true), 800); // Muncul kembali setelah 800ms
+            };
 
             return (
-                <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center p-5 transition-all duration-1000" 
+                <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center p-[60px]" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
-                    <div className="absolute inset-0 bg-black/75 backdrop-blur-md"></div>
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-lg"></div>
 
-                    <div className="glass-card relative z-10 rounded-[50px] p-10 md:p-20 flex flex-col md:flex-row items-center overflow-visible">
+                    <div className="glass-card relative z-10 rounded-[60px] p-12 md:p-24 flex flex-col md:flex-row items-center overflow-visible">
                         
                         {/* Konten Kiri */}
                         <div className="w-full md:w-3/5 h-full flex flex-col justify-between z-20">
                             
-                            {/* Navbar & Logo (Logo Diperbesar) */}
-                            <div className="flex justify-between items-center mb-10">
-                                <img src={baseUrl + char.logo} className="h-16 md:h-20 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" />
-                                <div className="flex gap-10 text-[11px] font-black tracking-[0.4em] text-gray-500">
-                                    {Object.keys(characters).map(id => (
-                                        <button key={id} onClick={() => setActive(id)} 
-                                                className={`hover:text-white transition-all uppercase ${active === id ? 'text-indigo-400 border-b-2 border-indigo-500 pb-2' : ''}`}>
-                                            {id}
-                                        </button>
-                                    ))}
-                                </div>
+                            {/* Navbar & Logo Besar */}
+                            <div className="flex justify-between items-center mb-12">
+                                <img src={baseUrl + char.logo} className="h-20 md:h-24 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]" />
+                                <button onClick={toggleCharacter} className="px-8 py-3 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/50 text-white rounded-full text-[10px] font-black tracking-widest transition-all">
+                                    REFRESH SPACE
+                                </button>
                             </div>
 
-                            {/* Nama (Ukuran Pas/Medium) */}
-                            <div className="mb-10">
-                                <p className="text-indigo-400 text-xs font-bold tracking-[0.6em] mb-4 uppercase opacity-90">{char.sub}</p>
-                                <h1 className="brush-font text-5xl md:text-7xl text-white leading-tight uppercase tracking-tighter">
+                            {/* Nama (Proporsional) */}
+                            <div className="mb-12">
+                                <p className="text-indigo-400 text-sm font-bold tracking-[0.6em] mb-4 uppercase opacity-90">{char.sub}</p>
+                                <h1 className="brush-font text-6xl md:text-8xl text-white leading-tight uppercase tracking-tighter">
                                     {char.name}
                                 </h1>
                             </div>
 
                             {/* Clips Section */}
                             <div className="w-full">
-                                <div className="flex justify-between items-end mb-8">
-                                    <h3 className="text-white text-xl font-extrabold tracking-tight">Popular clips</h3>
-                                    <span className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.3em] cursor-pointer hover:text-indigo-400 transition">Explore More</span>
-                                </div>
-                                <div className="flex gap-6">
+                                <h3 className="text-white text-xl font-extrabold tracking-tight mb-8">Popular clips</h3>
+                                <div className="flex gap-8">
                                     {char.clips.map((img, i) => (
-                                        <div key={i} className="relative w-48 h-32 rounded-[32px] overflow-hidden border border-white/5 group shadow-2xl">
+                                        <div key={i} className="relative w-56 h-36 rounded-[40px] overflow-hidden border border-white/5 group shadow-2xl">
                                             <img src={baseUrl + img} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-125" />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-center">
-                                                <div className="w-10 h-10 bg-indigo-600/90 rounded-full flex items-center justify-center border border-white/20 shadow-2xl group-hover:scale-110 transition-all">
-                                                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white fill-current ml-1"><path d="M8 5v14l11-7z"/></svg>
+                                                <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center border border-white/20 shadow-2xl transition-transform group-hover:scale-110">
+                                                    <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current ml-1"><path d="M8 5v14l11-7z"/></svg>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,9 +101,21 @@
                             </div>
                         </div>
 
-                        {/* Karakter Utama (Custom Posisi & Ukuran) */}
-                        <div className={`absolute ${char.pos.right} ${char.pos.top} ${char.pos.height} w-auto z-10 pointer-events-none`}>
-                            <img src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_50px_80px_rgba(0,0,0,0.9)]" />
+                        {/* Karakter Utama dengan Animasi Hilang/Muncul */}
+                        <div className="absolute -right-12 -top-20 md:-right-32 md:-top-44 h-[125%] w-auto z-10 pointer-events-none">
+                            <AnimatePresence>
+                                {isVisible && (
+                                    <motion.img 
+                                        key="character"
+                                        initial={{ opacity: 0, x: 100, scale: 0.8 }}
+                                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                                        exit={{ opacity: 0, x: 150, scale: 0.9, transition: { duration: 0.5 } }}
+                                        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                                        src={baseUrl + char.main} 
+                                        className="h-full w-auto object-contain drop-shadow-[0_60px_100px_rgba(0,0,0,0.9)]" 
+                                    />
+                                )}
+                            </AnimatePresence>
                         </div>
 
                     </div>
