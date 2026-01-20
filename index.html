@@ -3,54 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Dashboard</title>
+    <title>Ishtar Premium Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        body { background-color: #020617; color: white; margin: 0; font-family: sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        /* Font yang mirip dengan gaya brush/agresif */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap');
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #020617; overflow-x: hidden; }
+        .glass-card {
+            background: rgba(20, 20, 30, 0.6); /* Gelap dan transparan */
+            backdrop-filter: blur(20px); /* Efek kaca buram */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .brush-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -0.05em;
+            /* Efek teks agar terlihat lebih 'kasar' dan menonjol */
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.3), -1px -1px 0px rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState } = React;
-        const charData = {
-            ishtar: { name: "ISHTAR", sub: "Goddess", main: "ishtarutama.jpg", bg: "ishtarbackground.jpg", gallery: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"] },
-            ling: { name: "LING", sub: "Dreamer", main: "lingutama.webp", bg: "lingbackground.webp", gallery: ["ling1.jpg", "ling2.jpg", "ling3.jpeg"] },
-            helm: { name: "HELM", sub: "Captain", main: "helmutama.webp", bg: "helmbackground.jpg", gallery: ["helm1.jpg", "helm2.jpeg", "helm3.jpg"] }
-        };
         function App() {
-            const [active, setActive] = useState('ishtar');
-            const char = charData[active];
+            // Base URL untuk aset GitHub kamu
             const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
+            
+            // Data karakter Ishtar
+            const char = {
+                name: "ISHTAR",
+                sub: "Goddess", // Subtitle bahasa Jepang/Inggris
+                main: "ishtarutama.jpg",
+                bg: "ishtarbackground.jpg",
+                logo: "ishtarlogo.webp",
+                gallery: [
+                    { img: "ishtar1.jpeg", title: "Ishtar's Descent" },
+                    { img: "ishtar2.jpeg", title: "Goddess of Venus" },
+                    { img: "ishtar3.jpeg", title: "Noble Phantasm" }
+                ]
+            };
+
             return (
-                <div className="h-screen w-full flex items-center justify-center bg-cover bg-center transition-all duration-700" style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
-                    <div className="absolute inset-0 bg-black/60"></div>
-                    <div className="glass relative z-10 w-full max-w-4xl rounded-3xl p-8 flex flex-col md:flex-row items-center gap-10 m-4">
-                        <img src={baseUrl + char.main} className="w-48 md:w-80 drop-shadow-2xl" />
-                        <div className="flex-1 text-center md:text-left">
-                            <h1 className="text-6xl font-black italic text-blue-400 mb-2">{char.name}</h1>
-                            <p className="text-gray-400 tracking-[0.3em] text-sm mb-10">{char.sub.toUpperCase()}</p>
-                            <div className="flex justify-center md:justify-start gap-4 mb-10">
-                                {char.gallery.map(img => (
-                                    <div key={img} className="w-16 h-24 rounded-xl overflow-hidden border border-white/10 shadow-lg">
-                                        <img src={baseUrl + img} className="w-full h-full object-cover" />
-                                    </div>
-                                ))}
+                // Container Utama: Background Halaman Penuh
+                <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center p-4 md:p-8 relative" 
+                     style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
+                    {/* Overlay Gelap untuk Background */}
+                    <div className="absolute inset-0 bg-black/50"></div>
+
+                    {/* Kartu Kaca Utama */}
+                    <div className="glass-card relative z-10 w-full max-w-6xl rounded-[40px] p-8 md:p-12 overflow-visible flex flex-col md:flex-row">
+                        
+                        {/* Kolom Kiri: Konten Teks & Galeri */}
+                        <div className="w-full md:w-1/2 flex flex-col justify-between z-20">
+                            
+                            {/* Header: Logo & Navigasi (Meniru layout referensi) */}
+                            <div className="flex justify-between items-center mb-16">
+                                <img src={baseUrl + char.logo} alt="Logo" className="h-10 object-contain" />
+                                <div className="hidden md:flex gap-6 text-sm font-semibold text-gray-300">
+                                    <a href="#" className="hover:text-white transition">Home</a>
+                                    <a href="#" className="hover:text-white transition">Characters</a>
+                                    <a href="#" className="hover:text-white transition">Episodes & Info</a>
+                                    <a href="#" className="hover:text-white transition">About</a>
+                                </div>
                             </div>
-                            <div className="flex justify-center md:justify-start gap-4 border-t border-white/10 pt-8">
-                                {Object.keys(charData).map(id => (
-                                    <button key={id} onClick={() => setActive(id)} className={`px-6 py-2 rounded-full text-[10px] font-black tracking-widest transition-all ${active === id ? 'bg-blue-600 text-white' : 'bg-white/5 text-gray-400 hover:text-white'}`}>{id.toUpperCase()}</button>
-                                ))}
+
+                            {/* Nama Karakter Besar (Gaya Brush) */}
+                            <div className="mb-16">
+                                <p className="text-white text-lg font-bold mb-2 tracking-widest">{char.sub}</p>
+                                <h1 className="brush-font text-7xl md:text-9xl text-white leading-none">
+                                    {char.name}
+                                </h1>
+                            </div>
+
+                            {/* Bagian Bawah: "Popular clips" */}
+                            <div>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h3 className="text-white text-xl font-bold">Popular clips</h3>
+                                    <a href="#" className="text-gray-400 text-sm hover:text-white transition">View All</a>
+                                </div>
+                                <div className="flex gap-4 overflow-x-auto pb-2">
+                                    {/* Mapping 3 gambar galeri */}
+                                    {char.gallery.map((item, index) => (
+                                        <div key={index} className="relative flex-shrink-0 w-48 h-32 rounded-xl overflow-hidden group cursor-pointer border border-white/10">
+                                            <img src={baseUrl + item.img} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                            {/* Overlay Gelap & Ikon Play */}
+                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity group-hover:bg-black/20">
+                                                <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center pl-1">
+                                                    {/* Ikon Play Sederhana (SVG) */}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-black">
+                                                      <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            {/* Judul Klip di Bawah */}
+                                            <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                                                <p className="text-white text-xs font-semibold truncate">{item.title}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
+
+                        {/* Kolom Kanan: Gambar Karakter Utama (Overflow) */}
+                        {/* PENTING: Gambar ini diposisikan 'absolute' agar bisa keluar dari kartu.
+                           -right-20 md:-right-40: Menggeser ke kanan keluar kartu.
+                           -top-20 md:-top-32: Menggeser ke atas keluar kartu.
+                           z-10: Memastikan gambar berada di BELAKANG teks nama dan menu.
+                        */}
+                        <div className="absolute -right-20 -top-20 md:-right-40 md:-top-32 h-[120%] w-auto z-10 pointer-events-none">
+                            <img src={baseUrl + char.main} alt={char.name} className="h-full w-auto object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)]" />
+                        </div>
+
                     </div>
                 </div>
             );
         }
+
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
