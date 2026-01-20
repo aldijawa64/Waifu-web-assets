@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Cinematic Portfolio 2026</title>
+    <title>Professional Cinematic Portfolio 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -69,23 +69,32 @@
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
                     main: "ishtarutama.png", bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
-                    clips: ["ishtar1.jpeg", "ishtar2.jpeg", "ishtar3.jpeg"],
-                    pos: "bottom-0 -right-24 h-[115%]",
-                    crop: "object-top"
+                    clips: [
+                        { img: "ishtar1.jpeg", crop: "object-bottom" }, // Foto 1: Crop Bawah (muka di bawah)
+                        { img: "ishtar2.jpeg", crop: "object-top" },    // Foto 2: Crop Atas (muka di atas)
+                        { img: "ishtar3.jpeg", crop: "object-center" }  // Foto 3: Crop Tengah
+                    ],
+                    pos: "bottom-0 -right-24 h-[115%]"
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
                     main: "lingutama.webp", bg: "lingbackground.webp", logo: "linglogo.webp",
-                    clips: ["ling1.jpg", "ling2.jpg", "ling3.jpeg"],
-                    pos: "-bottom-28 -right-28 h-[122%]",
-                    crop: "object-center"
+                    clips: [
+                        { img: "ling1.jpg", crop: "object-center" },
+                        { img: "ling2.jpg", crop: "object-center" },
+                        { img: "ling3.jpeg", crop: "object-center" }
+                    ],
+                    pos: "-bottom-28 -right-28 h-[122%]"
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
                     main: "helmutama.webp", bg: "helmbackground.jpg", logo: "helmlogo.webp",
-                    clips: ["helm1.jpg", "helm2.jpeg", "helm3.jpg"],
-                    pos: "-bottom-8 -right-24 h-[108%]",
-                    crop: "object-center"
+                    clips: [
+                        { img: "helm1.jpg", crop: "object-center" },
+                        { img: "helm2.jpeg", crop: "object-center" },
+                        { img: "helm3.jpg", crop: "object-center" }
+                    ],
+                    pos: "-bottom-8 -right-24 h-[108%]"
                 }
             };
 
@@ -95,7 +104,8 @@
             return (
                 <div className="w-full min-h-screen bg-cover bg-center flex flex-col items-center p-[60px] pb-40 transition-all duration-1000" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})`, backgroundAttachment: 'fixed' }}>
-                    {/* Overlay lebih transparan agar background asli terlihat jelas */}
+                    
+                    {/* Overlay Transparan agar Background Asli Terlihat */}
                     <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-0"></div>
 
                     <div className="glass-card relative z-10 rounded-[80px] p-16 md:p-24 flex flex-col md:flex-row items-center overflow-visible mb-40">
@@ -104,7 +114,7 @@
                             
                             {/* Logo Diperkecil Sedikit */}
                             <div className="mb-12">
-                                <img src={baseUrl + char.logo} className="h-32 md:h-36 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
+                                <img src={baseUrl + char.logo} className="h-28 md:h-32 object-contain" />
                             </div>
 
                             {/* Nama Diperkecil Sedikit */}
@@ -115,7 +125,7 @@
                                 </h1>
                             </div>
 
-                            {/* Switcher */}
+                            {/* Switch Character */}
                             <div className="mb-16">
                                 <p className="text-gray-500 text-[11px] font-black tracking-[0.4em] uppercase mb-6">Switch Character</p>
                                 <div className="flex gap-8">
@@ -134,17 +144,16 @@
                                 </div>
                             </div>
 
-                            {/* Thumbnail Cinematic (Lebih Besar & Tanpa Tombol Play) */}
+                            {/* Thumbnail Cinematic (Lebar & Tanpa Play Button) */}
                             <div className="w-full">
                                 <h3 className="text-white text-xl font-extrabold tracking-tight mb-10 italic opacity-80">Gallery Clips</h3>
                                 <div className="flex gap-10 overflow-x-auto pb-6 no-scrollbar">
-                                    {char.clips.map((img, i) => (
+                                    {char.clips.map((clip, i) => (
                                         <div key={i} className="relative w-[580px] h-56 flex-shrink-0 rounded-[50px] overflow-hidden border border-white/10 group shadow-2xl">
                                             <img 
-                                                src={baseUrl + img} 
-                                                className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${char.crop}`} 
+                                                src={baseUrl + clip.img} 
+                                                className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${clip.crop}`} 
                                             />
-                                            {/* Overlay hover tanpa tombol play */}
                                             <div className="absolute inset-0 bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         </div>
                                     ))}
