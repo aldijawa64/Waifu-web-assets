@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldi | Cinematic Portfolio 2026</title>
+    <title>Aldi |waifu gua boss</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -19,21 +19,21 @@
             overflow-y: auto; 
         }
 
-        /* Animasi Karakter Bernapas (Low Size) */
+        /* 1. ANIMASI BERNAPAS (Sangat Ringan untuk 4G) */
         .char-breathe {
             animation: breathe 5s ease-in-out infinite; 
         }
         @keyframes breathe {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(1.02); }
+            50% { transform: translateY(-15px) scale(1.01); }
         }
 
-        /* Animasi Kutipan */
+        /* 2. ANIMASI KUTIPAN (Kiri & Kanan) */
         .slide-in-left { opacity: 0; animation: slideL 0.8s ease-out forwards; }
         .slide-in-right { opacity: 0; animation: slideR 0.8s ease-out 0.2s forwards; }
         
-        @keyframes slideL { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes slideR { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideL { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideR { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -45,15 +45,12 @@
 
         function App() {
             const [active, setActive] = useState('ishtar');
-            // PASTIKAN NAMA REPO DAN BRANCH BENAR
             const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
             
             const characters = {
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
-                    main: "ishtarutama.avif",
-                    bg: "ishtarbackground.avif",
-                    logo: "ishtarlogo.avif",
+                    main: "ishtarutama.avif", bg: "ishtarbackground.avif", logo: "ishtarlogo.avif",
                     clips: ["ishtar1.avif", "ishtar2.avif", "ishtar3.avif"],
                     pos: "md:bottom-0 md:-right-24 md:h-[115%] h-[55vh] bottom-[-2%] right-0",
                     quoteJp: "「ちょっと、こっち見ないで！別にドジ踏んだわけじゃないんだからね！」",
@@ -61,9 +58,7 @@
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
-                    main: "lingutama.avif",
-                    bg: "lingbackground.avif", 
-                    logo: "linglogo.avif", 
+                    main: "lingutama.avif", bg: "lingbackground.avif", logo: "linglogo.avif", 
                     clips: ["ling1.avif", "ling2.avif", "ling3.avif"],
                     pos: "md:-bottom-28 md:-right-28 md:h-[122%] h-[60vh] bottom-[-8%] right-0",
                     quoteJp: "「さあ、私と共に一杯どうだい？酔った目に映るこの世が、少しは綺麗に見えるかどうか試してみよう。」",
@@ -71,9 +66,7 @@
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
-                    main: "helmutama.avif",
-                    bg: "helmbackground.avif", 
-                    logo: "helmlogo.avif", 
+                    main: "helmutama.avif", bg: "helmbackground.avif", logo: "helmlogo.avif", 
                     clips: ["helm1.avif", "helm2.avif", "helm3.avif"],
                     pos: "md:-bottom-8 md:-right-24 md:h-[108%] h-[50vh] bottom-[-2%] right-0",
                     quoteJp: "「海は遠いかもしれませんが、我々の士気が衰えることはありません。」",
@@ -93,12 +86,10 @@
                     <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-black/90 backdrop-blur-3xl rounded-[40px] md:rounded-[80px] border border-white/10 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-2xl">
                         
                         <div className="w-full md:w-3/5 flex flex-col justify-between z-20 h-full">
-                            {/* Logo */}
                             <div className="mb-10">
                                 <img src={baseUrl + char.logo} className="h-24 md:h-36 object-contain drop-shadow-xl" />
                             </div>
 
-                            {/* Nama */}
                             <div className="mb-10">
                                 <p className="text-indigo-400 text-[10px] md:text-sm font-bold tracking-[0.6em] mb-2 uppercase opacity-90">{char.sub}</p>
                                 <h1 className="font-black italic text-5xl md:text-8xl text-white leading-tight uppercase" style={{ fontFamily: 'Montserrat' }}>
@@ -106,9 +97,8 @@
                                 </h1>
                             </div>
 
-                            {/* Switcher */}
                             <div className="mb-12">
-                                <p className="text-gray-500 text-[9px] font-black tracking-widest uppercase mb-4">Select Unit</p>
+                                <p className="text-gray-500 text-[9px] font-black tracking-widest uppercase mb-4">Select Agent</p>
                                 <div className="flex gap-4 md:gap-8">
                                     {otherChars.map(id => (
                                         <div key={id} onClick={() => setActive(id)} className="group relative w-32 md:w-64 h-20 md:h-28 rounded-2xl md:rounded-[40px] overflow-hidden border border-white/5 cursor-pointer hover:border-indigo-500 transition-all">
@@ -121,7 +111,6 @@
                                 </div>
                             </div>
 
-                            {/* Gallery */}
                             <div className="w-full">
                                 <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic opacity-80">Cinematic Gallery</h3>
                                 <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
@@ -134,19 +123,20 @@
                             </div>
                         </div>
 
-                        {/* Character Image (Breathe Effect) */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
                             <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_50px_80px_rgba(0,0,0,0.85)] char-breathe" />
                         </div>
                     </div>
 
-                    {/* Footer Quotes */}
+                    {/* FOOTER QUOTES (Slide Left & Right) */}
                     <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
                         <div className="h-[1px] w-24 md:w-48 bg-indigo-500/30 mb-10"></div>
                         <div key={active} className="space-y-6">
+                            {/* Kanji: Muncul dari Kiri */}
                             <p className="font-bold text-2xl md:text-4xl text-white/90 leading-relaxed slide-in-left px-4" style={{ fontFamily: 'Noto Serif JP' }}>
                                 {char.quoteJp}
                             </p>
+                            {/* Arti: Muncul dari Kanan (Delay sedikit) */}
                             <p className="text-indigo-300 text-[11px] md:text-base font-medium tracking-[0.2em] uppercase slide-in-right italic">
                                 {char.quoteId}
                             </p>
