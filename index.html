@@ -52,37 +52,45 @@
             const [active, setActive] = useState('ishtar');
             const baseUrl = "https://raw.githubusercontent.com/aldijawa64/Waifu-web-assets/main/";
             
+            // Pastikan SEMUA ekstensi file di bawah ini (.avif) 
+            // SAMA PERSIS dengan yang kamu unggah di GitHub.
             const characters = {
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
-                    main: "ishtarutama.png", bg: "ishtarbackground.jpg", logo: "ishtarlogo.webp",
+                    main: "ishtarutama.avif",
+                    bg: "ishtarbackground.avif",
+                    logo: "ishtarlogo.avif",
                     clips: [
-                        { img: "ishtar1.jpeg", crop: "object-bottom" },
-                        { img: "ishtar2.jpeg", crop: "object-top" },
-                        { img: "ishtar3.jpeg", crop: "object-center" }
+                        // PERUBAHAN DI SINI: Semua diubah jadi 'object-center' (normal)
+                        { img: "ishtar1.avif", crop: "object-center" },
+                        { img: "ishtar2.avif", crop: "object-center" },
+                        { img: "ishtar3.avif", crop: "object-center" }
                     ],
-                    // Posisi Responsif: Di HP center-bottom, di Laptop overflow-right
                     pos: "md:bottom-0 md:-right-24 md:h-[115%] h-[60vh] bottom-[-5%] right-0",
                     quote: "Kecantikanku adalah mutlak. Tunduklah di hadapan Ratu Surga."
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
-                    main: "lingutama.webp", bg: "lingbackground.webp", logo: "linglogo.webp",
+                    main: "lingutama.avif",
+                    bg: "lingbackground.avif", 
+                    logo: "linglogo.avif", 
                     clips: [
-                        { img: "ling1.jpg", crop: "object-center" },
-                        { img: "ling2.jpg", crop: "object-center" },
-                        { img: "ling3.jpeg", crop: "object-center" }
+                        { img: "ling1.avif", crop: "object-center" },
+                        { img: "ling2.avif", crop: "object-center" },
+                        { img: "ling3.avif", crop: "object-center" }
                     ],
                     pos: "md:-bottom-28 md:-right-28 md:h-[122%] h-[65vh] bottom-[-10%] right-0",
                     quote: "Mimpi adalah kenyataan yang menunggu untuk dilukis."
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
-                    main: "helmutama.webp", bg: "helmbackground.jpg", logo: "helmlogo.webp",
+                    main: "helmutama.avif",
+                    bg: "helmbackground.avif", 
+                    logo: "helmlogo.avif", 
                     clips: [
-                        { img: "helm1.jpg", crop: "object-center" },
-                        { img: "helm2.jpeg", crop: "object-center" },
-                        { img: "helm3.jpg", crop: "object-center" }
+                        { img: "helm1.avif", crop: "object-center" },
+                        { img: "helm2.avif", crop: "object-center" },
+                        { img: "helm3.avif", crop: "object-center" }
                     ],
                     pos: "md:-bottom-8 md:-right-24 md:h-[108%] h-[55vh] bottom-[-5%] right-0",
                     quote: "Kemenangan membutuhkan disiplin. Aku siap mengamankan masa depan."
@@ -96,9 +104,10 @@
                 <div className="w-full min-h-screen bg-cover bg-center flex flex-col items-center p-4 md:p-[60px] pb-20 transition-all duration-1000" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})`, backgroundAttachment: 'fixed' }}>
                     
-                    <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-0"></div>
+                    {/* Overlay background lebih terang sedikit agar BG asli terlihat */}
+                    <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-0"></div>
 
-                    {/* Card Utama: md:p-24 (Laptop), p-8 (HP) */}
+                    {/* Card Utama */}
                     <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-black/90 backdrop-blur-3xl rounded-[40px] md:rounded-[80px] border border-white/10 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-2xl">
                         
                         <div className="w-full md:w-3/5 flex flex-col justify-between z-20 h-full">
@@ -135,20 +144,21 @@
                                 </div>
                             </div>
 
-                            {/* Gallery (Scrollable di HP & Laptop) */}
+                            {/* Gallery Clips (Cinematic Wide) */}
                             <div className="w-full">
                                 <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic opacity-80">Gallery Clips</h3>
                                 <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
                                     {char.clips.map((clip, i) => (
-                                        <div key={i} className="relative w-64 md:w-[580px] h-32 md:h-56 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border border-white/10 shadow-xl">
-                                            <img src={baseUrl + clip.img} className={`w-full h-full object-cover ${clip.crop}`} />
+                                        // Ukuran thumbnail disesuaikan: w-64 di HP, w-[580px] di Laptop
+                                        <div key={i} className="relative w-64 md:w-[580px] h-32 md:h-56 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border border-white/10 shadow-xl group">
+                                            <img src={baseUrl + clip.img} className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${clip.crop}`} />
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Character Image: absolute di laptop, relative/absolute di HP */}
+                        {/* Character Image */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
                             <img 
                                 key={active}
