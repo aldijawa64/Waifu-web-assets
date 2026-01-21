@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldi | waifu gua boss</title>
+    <title>waifu gua nih boss</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -19,7 +19,7 @@
             overflow-y: auto; 
         }
 
-        /* 1. ANIMASI BERNAPAS (Sangat Ringan untuk 4G) */
+        /* 1. ANIMASI BERNAPAS (Low Size & Ringan 4G) */
         .char-breathe {
             animation: breathe 5s ease-in-out infinite; 
         }
@@ -28,7 +28,7 @@
             50% { transform: translateY(-15px) scale(1.01); }
         }
 
-        /* 2. ANIMASI KUTIPAN (Kiri & Kanan) */
+        /* 2. ANIMASI KUTIPAN (Slide Kiri & Kanan) */
         .slide-in-left { opacity: 0; animation: slideL 0.8s ease-out forwards; }
         .slide-in-right { opacity: 0; animation: slideR 0.8s ease-out 0.2s forwards; }
         
@@ -50,24 +50,30 @@
             const characters = {
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
-                    main: "ishtarutama.avif", bg: "ishtarbackground.avif", logo: "ishtarlogo.avif",
-                    clips: ["ishtar1.avif", "ishtar2.avif", "ishtar3.avif"],
+                    main: "ishtarutama.avif", // Format AVIF
+                    bg: "ishtarbackground.jpg", // Format Lama
+                    logo: "ishtarlogo.webp", // Format Lama
+                    clips: ["ishtar1.avif", "ishtar2.avif", "ishtar3.avif"], // Format AVIF
                     pos: "md:bottom-0 md:-right-24 md:h-[115%] h-[55vh] bottom-[-2%] right-0",
                     quoteJp: "「ちょっと、こっち見ないで！別にドジ踏んだわけじゃないんだからね！」",
                     quoteId: "\"Euy, jangan lihat-lihat! Aku tidak sedang melakukan kesalahan konyol, tahu!\""
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
-                    main: "lingutama.avif", bg: "lingbackground.avif", logo: "linglogo.avif", 
-                    clips: ["ling1.avif", "ling2.avif", "ling3.avif"],
+                    main: "lingutama.webp", // Format Lama
+                    bg: "lingbackground.webp", // Format Lama
+                    logo: "linglogo.webp", // Format Lama
+                    clips: ["ling1.avif", "ling2.avif", "ling3.avif"], // Format AVIF
                     pos: "md:-bottom-28 md:-right-28 md:h-[122%] h-[60vh] bottom-[-8%] right-0",
                     quoteJp: "「さあ、私と共に一杯どうだい？酔った目に映るこの世が、少しは綺麗に見えるかどうか試してみよう。」",
                     quoteId: "\"Ayo, minum bersamaku. Mari kita lihat apakah dunia ini akan terlihat lebih indah saat kau mabuk.\""
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
-                    main: "helmutama.avif", bg: "helmbackground.avif", logo: "helmlogo.avif", 
-                    clips: ["helm1.avif", "helm2.avif", "helm3.avif"],
+                    main: "helmutama.webp", // Format Lama
+                    bg: "helmbackground.jpg", // Format Lama
+                    logo: "helmlogo.webp", // Format Lama
+                    clips: ["helm1.avif", "helm2.avif", "helm3.avif"], // Format AVIF
                     pos: "md:-bottom-8 md:-right-24 md:h-[108%] h-[50vh] bottom-[-2%] right-0",
                     quoteJp: "「海は遠いかもしれませんが、我々の士気が衰えることはありません。」",
                     quoteId: "\"Laut mungkin jauh, tapi semangat kita tidak boleh surut.\""
@@ -86,10 +92,12 @@
                     <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-black/90 backdrop-blur-3xl rounded-[40px] md:rounded-[80px] border border-white/10 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-2xl">
                         
                         <div className="w-full md:w-3/5 flex flex-col justify-between z-20 h-full">
+                            {/* Logo */}
                             <div className="mb-10">
                                 <img src={baseUrl + char.logo} className="h-24 md:h-36 object-contain drop-shadow-xl" />
                             </div>
 
+                            {/* Nama */}
                             <div className="mb-10">
                                 <p className="text-indigo-400 text-[10px] md:text-sm font-bold tracking-[0.6em] mb-2 uppercase opacity-90">{char.sub}</p>
                                 <h1 className="font-black italic text-5xl md:text-8xl text-white leading-tight uppercase" style={{ fontFamily: 'Montserrat' }}>
@@ -97,6 +105,7 @@
                                 </h1>
                             </div>
 
+                            {/* Switcher */}
                             <div className="mb-12">
                                 <p className="text-gray-500 text-[9px] font-black tracking-widest uppercase mb-4">Select Agent</p>
                                 <div className="flex gap-4 md:gap-8">
@@ -111,6 +120,7 @@
                                 </div>
                             </div>
 
+                            {/* Gallery Cinematic */}
                             <div className="w-full">
                                 <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic opacity-80">Cinematic Gallery</h3>
                                 <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
@@ -123,20 +133,19 @@
                             </div>
                         </div>
 
+                        {/* Character Image (Breathe Effect) */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
                             <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_50px_80px_rgba(0,0,0,0.85)] char-breathe" />
                         </div>
                     </div>
 
-                    {/* FOOTER QUOTES (Slide Left & Right) */}
+                    {/* Footer Quotes */}
                     <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
                         <div className="h-[1px] w-24 md:w-48 bg-indigo-500/30 mb-10"></div>
                         <div key={active} className="space-y-6">
-                            {/* Kanji: Muncul dari Kiri */}
                             <p className="font-bold text-2xl md:text-4xl text-white/90 leading-relaxed slide-in-left px-4" style={{ fontFamily: 'Noto Serif JP' }}>
                                 {char.quoteJp}
                             </p>
-                            {/* Arti: Muncul dari Kanan (Delay sedikit) */}
                             <p className="text-indigo-300 text-[11px] md:text-base font-medium tracking-[0.2em] uppercase slide-in-right italic">
                                 {char.quoteId}
                             </p>
