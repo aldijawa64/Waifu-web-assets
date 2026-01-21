@@ -19,16 +19,16 @@
             overflow-y: auto; 
         }
 
-        /* 1. ANIMASI BERNAPAS (Sangat Ringan) */
+        /* 1. ANIMASI BERNAPAS DIPERCEPAT (2.5 detik) */
         .char-breathe {
-            animation: breathe 5s ease-in-out infinite; 
+            animation: breathe 2.5s ease-in-out infinite; 
         }
         @keyframes breathe {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(1.01); }
+            50% { transform: translateY(-20px) scale(1.03); }
         }
 
-        /* 2. ANIMASI KUTIPAN (Slide Kiri & Kanan) */
+        /* 2. ANIMASI KUTIPAN */
         .slide-in-left { 
             opacity: 0; 
             animation: slideL 0.8s ease-out forwards; 
@@ -94,30 +94,32 @@
                 <div className="w-full min-h-screen bg-cover bg-center flex flex-col items-center p-4 md:p-[60px] pb-32 transition-all duration-1000" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})`, backgroundAttachment: 'fixed' }}>
                     
-                    <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-0"></div>
+                    {/* Overlay Tipis agar background asli tetap mendominasi */}
+                    <div className="fixed inset-0 bg-black/30 backdrop-blur-[1px] z-0"></div>
 
-                    <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-black/90 backdrop-blur-3xl rounded-[40px] md:rounded-[80px] border border-white/10 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-2xl">
+                    {/* GLASS CARD: Menggunakan bg-black/10 dan blur 6xl agar transparan mengikuti background */}
+                    <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-black/20 backdrop-blur-[40px] rounded-[40px] md:rounded-[80px] border border-white/20 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-[0_0_80px_rgba(0,0,0,0.5)]">
                         
                         <div className="w-full md:w-3/5 flex flex-col justify-between z-20 h-full">
                             <div className="mb-10">
-                                <img src={baseUrl + char.logo} className="h-24 md:h-36 object-contain drop-shadow-xl" />
+                                <img src={baseUrl + char.logo} className="h-24 md:h-36 object-contain drop-shadow-2xl" />
                             </div>
 
                             <div className="mb-10">
-                                <p className="text-indigo-400 text-[10px] md:text-sm font-bold tracking-[0.6em] mb-2 uppercase opacity-90">{char.sub}</p>
-                                <h1 className="font-black italic text-5xl md:text-8xl text-white leading-tight uppercase" style={{ fontFamily: 'Montserrat' }}>
+                                <p className="text-white/80 text-[10px] md:text-sm font-bold tracking-[0.6em] mb-2 uppercase">{char.sub}</p>
+                                <h1 className="font-black italic text-5xl md:text-8xl text-white leading-tight uppercase drop-shadow-lg" style={{ fontFamily: 'Montserrat' }}>
                                     {char.name}
                                 </h1>
                             </div>
 
                             <div className="mb-12">
-                                <p className="text-gray-500 text-[9px] font-black tracking-widest uppercase mb-4">Select Agent</p>
+                                <p className="text-white/50 text-[9px] font-black tracking-widest uppercase mb-4">Select Agent</p>
                                 <div className="flex gap-4 md:gap-8">
                                     {otherChars.map(id => (
-                                        <div key={id} onClick={() => setActive(id)} className="group relative w-32 md:w-64 h-20 md:h-28 rounded-2xl md:rounded-[40px] overflow-hidden border border-white/5 cursor-pointer hover:border-indigo-500 transition-all">
-                                            <img src={baseUrl + characters[id].main} className="w-full h-full object-cover opacity-30 group-hover:opacity-100 transition-all" />
-                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                                <span className="text-white text-[10px] md:text-[12px] font-black uppercase tracking-widest">{id}</span>
+                                        <div key={id} onClick={() => setActive(id)} className="group relative w-32 md:w-64 h-20 md:h-28 rounded-2xl md:rounded-[40px] overflow-hidden border border-white/20 cursor-pointer hover:border-white transition-all">
+                                            <img src={baseUrl + characters[id].main} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all" />
+                                            <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                                                <span className="text-white text-[10px] md:text-[12px] font-black uppercase tracking-widest shadow-black drop-shadow-md">{id}</span>
                                             </div>
                                         </div>
                                     ))}
@@ -125,10 +127,10 @@
                             </div>
 
                             <div className="w-full">
-                                <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic opacity-80">Cinematic Gallery</h3>
+                                <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic drop-shadow-md">Cinematic Gallery</h3>
                                 <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
                                     {char.clips.map((imgName, i) => (
-                                        <div key={i} className="relative w-72 md:w-[600px] h-36 md:h-60 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border border-white/10 shadow-2xl group">
+                                        <div key={i} className="relative w-72 md:w-[600px] h-36 md:h-60 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border border-white/20 shadow-2xl group">
                                             <img src={baseUrl + imgName} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                                         </div>
                                     ))}
@@ -136,20 +138,20 @@
                             </div>
                         </div>
 
+                        {/* Character Image dengan Gerakan Bernapas Lebih Cepat */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
-                            <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_50px_80px_rgba(0,0,0,0.85)] char-breathe" />
+                            <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.7)] char-breathe" />
                         </div>
                     </div>
 
-                    {/* FOOTER QUOTES: Dengan key={active} agar animasi restart tiap ganti char */}
+                    {/* FOOTER QUOTES */}
                     <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
-                        <div className="h-[1px] w-24 md:w-48 bg-indigo-500/30 mb-10"></div>
-                        
+                        <div className="h-[2px] w-24 md:w-48 bg-white/20 mb-10"></div>
                         <div key={active + "-quote"} className="flex flex-col items-center gap-6">
-                            <p className="font-bold text-2xl md:text-4xl text-white/90 leading-relaxed slide-in-left px-4" style={{ fontFamily: 'Noto Serif JP' }}>
+                            <p className="font-bold text-2xl md:text-4xl text-white leading-relaxed slide-in-left px-4 drop-shadow-xl" style={{ fontFamily: 'Noto Serif JP' }}>
                                 {char.quoteJp}
                             </p>
-                            <p className="text-indigo-300 text-[11px] md:text-base font-medium tracking-[0.2em] uppercase slide-in-right italic">
+                            <p className="text-white/60 text-[11px] md:text-base font-medium tracking-[0.2em] uppercase slide-in-right italic drop-shadow-md">
                                 {char.quoteId}
                             </p>
                         </div>
