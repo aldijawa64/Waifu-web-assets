@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Responsive Portfolio 2026</title>
+    <title>Responsive Cinematic Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&family=Noto+Serif+JP:wght@900&display=swap');
+        /* Menambahkan font Noto Serif JP untuk teks Jepang */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&family=Noto+Serif+JP:wght@700&display=swap');
         
         body { 
             margin: 0; 
@@ -19,44 +20,41 @@
             overflow-y: auto; 
         }
         
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #010409; }
-        ::-webkit-scrollbar-thumb { background: #312e81; border-radius: 10px; }
-
-        .glass-card {
-            background: rgba(8, 8, 16, 0.9);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            width: calc(100vw - 32px);
-            md:width: calc(100vw - 120px);
-            min-height: calc(100vh - 120px);
-            box-shadow: 0 0 100px rgba(0, 0, 0, 0.9);
+        /* --- ANIMASI KARAKTER UTAMA (SANGAT RINGAN) --- */
+        /* Membuat karakter terlihat "bernapas" atau melayang perlahan */
+        .char-breathe {
+            /* Bergerak naik turun selamanya */
+            animation: breathe 4s ease-in-out infinite; 
         }
 
-        .kanji-font {
-            font-family: 'Noto Serif JP', serif;
-            writing-mode: vertical-rl;
-            text-orientation: upright;
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); } /* Bergerak ke atas sedikit */
         }
 
-        .char-fade-in {
-            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        /* --- ANIMASI KUTIPAN BARU --- */
+        /* Muncul dari Kiri (untuk teks Jepang) */
+        .slide-in-left {
+            opacity: 0;
+            animation: slideLeft 0.8s ease-out forwards;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .quote-slide-in {
-            animation: slideInLeft 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-40px); }
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(-30px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
+        /* Muncul dari Kanan (untuk arti Indonesia) */
+        /* Ada sedikit delay (0.2s) agar muncul setelah teks Jepang */
+        .slide-in-right {
+            opacity: 0;
+            animation: slideRight 0.8s ease-out 0.2s forwards;
+        }
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Hilangkan Scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -73,42 +71,48 @@
             const characters = {
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
-                    main: "ishtarutama.avif", // Format AVIF sesuai koreksi
-                    bg: "ishtarbackground.jpg",
-                    logo: "ishtarlogo.webp",
+                    main: "ishtarutama.avif",
+                    bg: "ishtarbackground.avif",
+                    logo: "ishtarlogo.avif",
                     clips: [
-                        { img: "ishtar1.avif", crop: "object-center" }, // AVIF
-                        { img: "ishtar2.avif", crop: "object-center" }, // AVIF
-                        { img: "ishtar3.avif", crop: "object-center" }  // AVIF
+                        { img: "ishtar1.avif", crop: "object-center" },
+                        { img: "ishtar2.avif", crop: "object-center" },
+                        { img: "ishtar3.avif", crop: "object-center" }
                     ],
-                    pos: "md:bottom-0 md:-right-24 md:h-[115%] h-[55vh] bottom-[-5%] right-0",
-                    quote: "Kecantikanku adalah mutlak. Tunduklah di hadapan Ratu Surga."
+                    pos: "md:bottom-0 md:-right-24 md:h-[115%] h-[60vh] bottom-[-5%] right-0",
+                    // Kutipan Baru (Jepang & Indo)
+                    quoteJp: "「ちょっと、こっち見ないで！別にドジ踏んだわけじゃないんだからね！」",
+                    quoteId: "\"Euy, jangan lihat-lihat! Aku tidak sedang melakukan kesalahan konyol, tahu!\""
                 },
                 ling: {
                     name: "LING", sub: "The Dreamer of Sui",
-                    main: "lingutama.webp", // Tetap Webp sesuai sisa format
-                    bg: "lingbackground.webp", 
-                    logo: "linglogo.webp", 
+                    main: "lingutama.avif",
+                    bg: "lingbackground.avif", 
+                    logo: "linglogo.avif", 
                     clips: [
-                        { img: "ling1.avif", crop: "object-center" }, // AVIF
-                        { img: "ling2.avif", crop: "object-center" }, // AVIF
-                        { img: "ling3.avif", crop: "object-center" }  // AVIF
+                        { img: "ling1.avif", crop: "object-center" },
+                        { img: "ling2.avif", crop: "object-center" },
+                        { img: "ling3.avif", crop: "object-center" }
                     ],
-                    pos: "md:-bottom-28 md:-right-28 md:h-[122%] h-[60vh] bottom-[-10%] right-0",
-                    quote: "Mimpi adalah kenyataan yang menunggu untuk dilukis."
+                    pos: "md:-bottom-28 md:-right-28 md:h-[122%] h-[65vh] bottom-[-10%] right-0",
+                    // Kutipan Baru (Jepang & Indo)
+                    quoteJp: "「さあ、私と共に一杯どうだい？酔った目に映るこの世が、少しは綺麗に見えるかどうか試してみよう。」",
+                    quoteId: "\"Ayo, minum bersamaku. Mari kita lihat apakah dunia ini akan terlihat lebih indah saat kau mabuk.\""
                 },
                 helm: {
                     name: "HELM", sub: "Aegis Captain",
-                    main: "helmutama.webp", // Tetap Webp sesuai sisa format
-                    bg: "helmbackground.jpg", 
-                    logo: "helmlogo.webp", 
+                    main: "helmutama.avif",
+                    bg: "helmbackground.avif", 
+                    logo: "helmlogo.avif", 
                     clips: [
-                        { img: "helm1.avif", crop: "object-center" }, // AVIF
-                        { img: "helm2.avif", crop: "object-center" }, // AVIF
-                        { img: "helm3.avif", crop: "object-center" }  // AVIF
+                        { img: "helm1.avif", crop: "object-center" },
+                        { img: "helm2.avif", crop: "object-center" },
+                        { img: "helm3.avif", crop: "object-center" }
                     ],
-                    pos: "md:-bottom-8 md:-right-24 md:h-[108%] h-[50vh] bottom-[-5%] right-0",
-                    quote: "Kemenangan membutuhkan disiplin. Aku siap mengamankan masa depan."
+                    pos: "md:-bottom-8 md:-right-24 md:h-[108%] h-[55vh] bottom-[-5%] right-0",
+                    // Kutipan Baru (Jepang & Indo)
+                    quoteJp: "「海は遠いかもしれませんが、我々の士気が衰えることはありません。」",
+                    quoteId: "\"Laut mungkin jauh, tapi semangat kita tidak boleh surut.\""
                 }
             };
 
@@ -116,23 +120,22 @@
             const otherChars = Object.keys(characters).filter(id => id !== active);
 
             return (
-                <div className="w-full min-h-screen bg-cover bg-center flex flex-col items-center p-4 md:p-[60px] pb-40 transition-all duration-1000" 
+                <div className="w-full min-h-screen bg-cover bg-center flex flex-col items-center p-4 md:p-[60px] pb-20 transition-all duration-1000" 
                      style={{ backgroundImage: `url(${baseUrl + char.bg})`, backgroundAttachment: 'fixed' }}>
                     
                     <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-0"></div>
 
                     {/* Card Utama */}
-                    <div className="glass-card relative z-10 rounded-[40px] md:rounded-[80px] p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-2xl">
+                    <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-black/90 backdrop-blur-3xl rounded-[40px] md:rounded-[80px] border border-white/10 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-2xl">
                         
                         <div className="w-full md:w-3/5 flex flex-col justify-between z-20 h-full">
-                            
                             {/* Logo */}
-                            <div className="mb-8">
+                            <div className="mb-8 md:mb-12">
                                 <img src={baseUrl + char.logo} className="h-20 md:h-32 object-contain" />
                             </div>
 
-                            {/* Nama */}
-                            <div className="mb-10">
+                            {/* Nama & Sub */}
+                            <div className="mb-8 md:mb-12">
                                 <p className="text-indigo-400 text-[10px] md:text-sm font-bold tracking-[0.5em] md:tracking-[0.8em] mb-2 uppercase opacity-90">{char.sub}</p>
                                 <h1 className="font-black italic text-4xl md:text-7xl text-white leading-tight uppercase" style={{ fontFamily: 'Montserrat' }}>
                                     {char.name}
@@ -140,7 +143,7 @@
                             </div>
 
                             {/* Switch Character */}
-                            <div className="mb-12">
+                            <div className="mb-10 md:mb-16">
                                 <p className="text-gray-500 text-[9px] md:text-[11px] font-black tracking-widest uppercase mb-4">Switch Agent</p>
                                 <div className="flex gap-4 md:gap-8">
                                     {otherChars.map(id => (
@@ -158,12 +161,12 @@
                                 </div>
                             </div>
 
-                            {/* Gallery Clips (Cinematic) */}
+                            {/* Gallery Clips */}
                             <div className="w-full">
                                 <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic opacity-80">Gallery Clips</h3>
                                 <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
                                     {char.clips.map((clip, i) => (
-                                        <div key={i} className="relative w-64 md:w-[580px] h-36 md:h-56 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border border-white/10 shadow-xl group">
+                                        <div key={i} className="relative w-64 md:w-[580px] h-32 md:h-56 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border border-white/10 shadow-xl group">
                                             <img src={baseUrl + clip.img} className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${clip.crop}`} />
                                         </div>
                                     ))}
@@ -171,47 +174,32 @@
                             </div>
                         </div>
 
-                        {/* Character Image */}
+                        {/* Character Image dengan Animasi Bernapas (char-breathe) */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
                             <img 
                                 key={active}
                                 src={baseUrl + char.main} 
-                                className="h-full w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.8)] char-fade-in" 
+                                // Menambahkan class 'char-breathe' di sini
+                                className="h-full w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.8)] char-breathe" 
                             />
                         </div>
                     </div>
 
-                    {/* Footer Kanji & Poetry Section */}
-                    <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
-                        {/* Quote Box */}
-                        <div key={active} className="quote-slide-in mb-24">
-                            <div className="h-[1px] w-20 md:w-40 bg-indigo-500/30 mx-auto mb-8"></div>
-                            <p className="font-black italic text-xl md:text-4xl text-white/90 leading-tight uppercase mb-4" style={{ fontFamily: 'Montserrat' }}>
-                                "{char.quote}"
-                            </p>
-                            <p className="text-indigo-400/60 text-[10px] md:text-sm font-bold tracking-[0.3em] uppercase">
-                                — {char.name}
-                            </p>
-                        </div>
-
-                        {/* Kanji Section Vertikal */}
-                        <div className="flex justify-center gap-8 md:gap-12 mb-10">
-                            <span className="kanji-font text-5xl md:text-8xl text-white/90 leading-relaxed tracking-widest">
-                                美しきものは
-                            </span>
-                            <span className="kanji-font text-5xl md:text-8xl text-white/90 leading-relaxed tracking-widest">
-                                永遠の喜びなり
-                            </span>
-                        </div>
-                        <div className="h-[2px] w-32 md:w-48 bg-indigo-500/50 mb-8 mx-auto"></div>
+                    {/* Footer Quote Section Baru */}
+                    <div className="relative z-10 w-full max-w-4xl px-6 flex flex-col items-center text-center">
+                        <div className="h-[1px] w-20 md:w-40 bg-indigo-500/30 mb-8"></div>
                         
-                        {/* Arti Bahasa Indonesia */}
-                        <p className="text-white/40 text-lg md:text-2xl font-bold italic tracking-[0.2em] md:tracking-[0.4em] uppercase mb-2">
-                            "Everything that is beautiful is a joy forever"
-                        </p>
-                        <p className="text-white/20 text-[10px] md:text-sm font-medium tracking-widest uppercase">
-                            Segala sesuatu yang indah adalah kegembiraan selamanya
-                        </p>
+                        {/* Key={active} memastikan animasi diulang saat karakter berubah */}
+                        <div key={active} className="flex flex-col items-center gap-4">
+                            {/* Teks Jepang: Muncul dari Kiri */}
+                            <p className="font-black text-xl md:text-3xl text-white/90 leading-relaxed slide-in-left" style={{ fontFamily: 'Noto Serif JP' }}>
+                                {char.quoteJp}
+                            </p>
+                            {/* Teks Indo: Kecil, Muncul dari Kanan */}
+                            <p className="text-indigo-300/80 text-[10px] md:text-sm font-bold tracking-widest uppercase slide-in-right">
+                                {char.quoteId}
+                            </p>
+                        </div>
                     </div>
                 </div>
             );
