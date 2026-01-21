@@ -19,7 +19,6 @@
             overflow-y: auto; 
         }
 
-        /* 1. ANIMASI BERNAPAS (Sangat Ringan & Cepat) */
         .char-breathe {
             animation: breathe 2.5s ease-in-out infinite; 
         }
@@ -28,24 +27,11 @@
             50% { transform: translateY(-20px) scale(1.03); }
         }
 
-        /* 2. ANIMASI KUTIPAN */
-        .slide-in-left { 
-            opacity: 0; 
-            animation: slideL 0.8s ease-out forwards; 
-        }
-        .slide-in-right { 
-            opacity: 0; 
-            animation: slideR 0.8s ease-out 0.3s forwards; 
-        }
+        .slide-in-left { opacity: 0; animation: slideL 0.8s ease-out forwards; }
+        .slide-in-right { opacity: 0; animation: slideR 0.8s ease-out 0.3s forwards; }
         
-        @keyframes slideL { 
-            from { opacity: 0; transform: translateX(-50px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
-        @keyframes slideR { 
-            from { opacity: 0; transform: translateX(50px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
+        @keyframes slideL { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideR { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -66,8 +52,8 @@
                     bg: "ishtarbackground.jpg", 
                     logo: "ishtarlogo.webp",
                     clips: ["ishtar1.avif", "ishtar2.avif", "ishtar3.avif"],
-                    // STANDARISASI: Ukuran diperbesar dan disamakan dengan Helm
-                    pos: "md:bottom-0 md:-right-32 md:h-[125%] h-[75vh] bottom-[-5%] right-[-5%]",
+                    // Ishtar diperbesar sedikit (h-130% laptop, h-82vh mobile)
+                    pos: "md:bottom-0 md:-right-32 md:h-[130%] h-[82vh] bottom-[-2%] right-[-5%]",
                     quoteJp: "「ちょっと、こっち見ないで！別にドジ踏んだわけじゃないんだからね！」",
                     quoteId: "\"Euy, jangan lihat-lihat! Aku tidak sedang melakukan kesalahan konyol, tahu!\""
                 },
@@ -77,8 +63,8 @@
                     bg: "lingbackground.webp", 
                     logo: "linglogo.webp", 
                     clips: ["ling1.avif", "ling2.avif", "ling3.avif"],
-                    // STANDARISASI: Ukuran diperbesar dan disamakan dengan Helm
-                    pos: "md:-bottom-12 md:-right-32 md:h-[125%] h-[75vh] bottom-[-8%] right-[-5%]",
+                    // Ling diperbesar signifikan agar tidak mungil (h-145% laptop, h-92vh mobile)
+                    pos: "md:-bottom-20 md:-right-40 md:h-[145%] h-[92vh] bottom-[-10%] right-[-10%]",
                     quoteJp: "「さあ、私と共に一杯どうだい？酔った目に映るこの世が、少しは綺麗に見えるかどうか試してみよう。」",
                     quoteId: "\"Ayo, minum bersamaku. Mari kita lihat apakah dunia ini akan terlihat lebih indah saat kau mabuk.\""
                 },
@@ -88,7 +74,6 @@
                     bg: "helmbackground.jpg", 
                     logo: "helmlogo.webp", 
                     clips: ["helm1.avif", "helm2.avif", "helm3.avif"],
-                    // PATOKAN UKURAN: h-[125%] (Laptop), h-[75vh] (Mobile)
                     pos: "md:-bottom-5 md:-right-24 md:h-[125%] h-[75vh] bottom-[-5%] right-[-5%]",
                     quoteJp: "「海は遠いかもしれませんが、我々の士気が衰えることはありません。」",
                     quoteId: "\"Laut mungkin jauh, tapi semangat kita tidak boleh surut.\""
@@ -104,7 +89,6 @@
                     
                     <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-0"></div>
 
-                    {/* Dashboard Container */}
                     <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-cover bg-center rounded-[40px] md:rounded-[80px] p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-20 shadow-[0_40px_100px_rgba(0,0,0,0.9)]"
                          style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
                         
@@ -148,22 +132,20 @@
                             </div>
                         </div>
 
-                        {/* Character Image (Bernapas) */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
-                            <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,1)] char-breathe" />
+                            <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_40px_100px_rgba(0,0,0,1)] char-breathe" />
                         </div>
                     </div>
 
-                    {/* Footer Quote (Visibility Fix for Mobile) */}
+                    {/* Kutipan dengan Visibilitas Ekstra untuk HP */}
                     <div className="relative z-10 w-full max-w-5xl px-4 flex flex-col items-center text-center">
                         <div className="h-[2px] w-24 md:w-48 bg-white/20 mb-10"></div>
                         
-                        {/* Ditambahkan bg-black/60 di mobile agar Kanji terlihat jelas */}
-                        <div key={active + "-quote"} className="flex flex-col items-center gap-6 bg-black/40 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-6 md:p-0 rounded-3xl">
-                            <p className="font-bold text-xl md:text-4xl text-white leading-relaxed slide-in-left px-2 drop-shadow-[0_5px_15px_rgba(0,0,0,1)]" style={{ fontFamily: 'Noto Serif JP' }}>
+                        <div key={active + "-quote"} className="flex flex-col items-center gap-6 bg-black/60 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 md:p-0 rounded-[40px] border border-white/5 md:border-none">
+                            <p className="font-bold text-2xl md:text-5xl text-white leading-relaxed slide-in-left px-2 drop-shadow-[0_10px_20px_rgba(0,0,0,1)]" style={{ fontFamily: 'Noto Serif JP' }}>
                                 {char.quoteJp}
                             </p>
-                            <p className="text-indigo-300/90 text-[10px] md:text-base font-medium tracking-[0.2em] uppercase slide-in-right italic drop-shadow-lg">
+                            <p className="text-indigo-300 text-[11px] md:text-lg font-bold tracking-[0.3em] uppercase slide-in-right italic drop-shadow-xl">
                                 {char.quoteId}
                             </p>
                         </div>
