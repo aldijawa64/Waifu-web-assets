@@ -9,7 +9,8 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&family=Noto+Serif+JP:wght@700&display=swap');
+        /* Menambahkan font Cinzel Decorative untuk nama karakter */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;700;800&family=Noto+Serif+JP:wght@700&display=swap');
         
         body { 
             margin: 0; 
@@ -19,7 +20,7 @@
             overflow-y: auto; 
         }
 
-        /* 1. ANIMASI BERNAPAS DIPERCEPAT (2.5 detik) */
+        /* 1. ANIMASI BERNAPAS CEPAT (2.5 detik) */
         .char-breathe {
             animation: breathe 2.5s ease-in-out infinite; 
         }
@@ -62,11 +63,13 @@
             const characters = {
                 ishtar: {
                     name: "ISHTAR", sub: "Goddess of Beauty",
+                    // PERBAIKAN 1: Nama file gambar utama Ishtar diganti
                     main: "ishtarutama (1).avif", 
                     bg: "ishtarbackground.jpg", 
                     logo: "ishtarlogo.webp",
-                    clips: ["ishtar1.avif", "ishtar2.avif", "ishtar3.avif"], // TETAP AVIF
-                    pos: "md:bottom-0 md:-right-24 md:h-[115%] h-[55vh] bottom-[-2%] right-0",
+                    clips: ["ishtar1.avif", "ishtar2.avif", "ishtar3.avif"],
+                    // PERBAIKAN 2: Ukuran disamakan dengan Helm (h-[108%], h-[50vh])
+                    pos: "md:bottom-0 md:-right-24 md:h-[108%] h-[50vh] bottom-[-2%] right-0",
                     quoteJp: "「ちょっと、こっち見ないで！別にドジ踏んだわけじゃないんだからね！」",
                     quoteId: "\"Euy, jangan lihat-lihat! Aku tidak sedang melakukan kesalahan konyol, tahu!\""
                 },
@@ -75,8 +78,9 @@
                     main: "lingutama.webp", 
                     bg: "lingbackground.webp", 
                     logo: "linglogo.webp", 
-                    clips: ["ling1.avif", "ling2.avif", "ling3.avif"], // TETAP AVIF
-                    pos: "md:-bottom-28 md:-right-28 md:h-[122%] h-[60vh] bottom-[-8%] right-0",
+                    clips: ["ling1.avif", "ling2.avif", "ling3.avif"],
+                    // PERBAIKAN 2: Ukuran disamakan dengan Helm (h-[108%], h-[50vh]) dan posisi disesuaikan
+                    pos: "md:-bottom-8 md:-right-28 md:h-[108%] h-[50vh] bottom-[-5%] right-0",
                     quoteJp: "「さあ、私と共に一杯どうだい？酔った目に映るこの世が、少しは綺麗に見えるかどうか試してみよう。」",
                     quoteId: "\"Ayo, minum bersamaku. Mari kita lihat apakah dunia ini akan terlihat lebih indah saat kau mabuk.\""
                 },
@@ -85,7 +89,8 @@
                     main: "helmutama.webp", 
                     bg: "helmbackground.jpg", 
                     logo: "helmlogo.webp", 
-                    clips: ["helm1.avif", "helm2.avif", "helm3.avif"], // TETAP AVIF
+                    clips: ["helm1.avif", "helm2.avif", "helm3.avif"],
+                    // Ukuran Helm sebagai patokan
                     pos: "md:-bottom-8 md:-right-24 md:h-[108%] h-[50vh] bottom-[-2%] right-0",
                     quoteJp: "「海は遠いかもしれませんが、我々の士気が衰えることはありません。」",
                     quoteId: "\"Laut mungkin jauh, tapi semangat kita tidak boleh surut.\""
@@ -101,33 +106,32 @@
                     
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-0"></div>
 
-                    {/* KOTAK TENGAH: Menggunakan Background masing-masing karakter */}
-                    <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-cover bg-center rounded-[40px] md:rounded-[80px] border-4 border-white/10 p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-[0_0_100px_rgba(0,0,0,0.8)]"
+                    <div className="relative z-10 w-full max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-120px)] min-h-[calc(100vh-120px)] bg-cover bg-center rounded-[40px] md:rounded-[80px] p-8 md:p-24 flex flex-col md:flex-row items-center overflow-hidden md:overflow-visible mb-16 shadow-[0_40px_100px_rgba(0,0,0,0.9)]"
                          style={{ backgroundImage: `url(${baseUrl + char.bg})` }}>
                         
-                        {/* Overlay di dalam kotak agar teks tetap terbaca */}
                         <div className="absolute inset-0 bg-black/50 z-0"></div>
                         
                         <div className="w-full md:w-3/5 flex flex-col justify-between z-20 h-full">
                             <div className="mb-10">
-                                <img src={baseUrl + char.logo} className="h-24 md:h-36 object-contain drop-shadow-2xl" />
+                                <img src={baseUrl + char.logo} className="h-24 md:h-36 object-contain" />
                             </div>
 
                             <div className="mb-10 text-left">
                                 <p className="text-white/80 text-[10px] md:text-sm font-bold tracking-[0.6em] mb-2 uppercase">{char.sub}</p>
-                                <h1 className="font-black italic text-5xl md:text-8xl text-white leading-tight uppercase drop-shadow-2xl" style={{ fontFamily: 'Montserrat' }}>
+                                {/* PERBAIKAN 4: Font nama karakter diganti menjadi Cinzel Decorative */}
+                                <h1 className="font-black text-5xl md:text-8xl text-white leading-tight uppercase drop-shadow-2xl" style={{ fontFamily: 'Cinzel Decorative, serif' }}>
                                     {char.name}
                                 </h1>
                             </div>
 
                             <div className="mb-12">
-                                <p className="text-white/60 text-[9px] font-black tracking-widest uppercase mb-4">Select Unit</p>
+                                <p className="text-white/60 text-[9px] font-black tracking-widest uppercase mb-4">Select Agent</p>
                                 <div className="flex gap-4 md:gap-8">
                                     {otherChars.map(id => (
-                                        <div key={id} onClick={() => setActive(id)} className="group relative w-32 md:w-64 h-20 md:h-28 rounded-2xl md:rounded-[40px] overflow-hidden border-2 border-white/20 cursor-pointer hover:border-white transition-all shadow-xl">
+                                        <div key={id} onClick={() => setActive(id)} className="group relative w-32 md:w-64 h-20 md:h-28 rounded-2xl md:rounded-[40px] overflow-hidden cursor-pointer shadow-xl">
                                             <img src={baseUrl + characters[id].main} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all" />
                                             <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                                <span className="text-white text-[10px] md:text-[12px] font-black uppercase tracking-widest drop-shadow-lg">{id}</span>
+                                                <span className="text-white text-[10px] md:text-[12px] font-black uppercase tracking-widest drop-shadow-md">{id}</span>
                                             </div>
                                         </div>
                                     ))}
@@ -135,10 +139,10 @@
                             </div>
 
                             <div className="w-full">
-                                <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic drop-shadow-xl">Cinematic Gallery</h3>
+                                <h3 className="text-white text-sm md:text-xl font-extrabold tracking-tight mb-6 italic opacity-80 drop-shadow-xl">Cinematic Gallery</h3>
                                 <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
                                     {char.clips.map((imgName, i) => (
-                                        <div key={i} className="relative w-72 md:w-[600px] h-36 md:h-60 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden border-2 border-white/20 shadow-2xl group">
+                                        <div key={i} className="relative w-72 md:w-[600px] h-36 md:h-60 flex-shrink-0 rounded-2xl md:rounded-[50px] overflow-hidden shadow-2xl group">
                                             <img src={baseUrl + imgName} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                                         </div>
                                     ))}
@@ -146,16 +150,15 @@
                             </div>
                         </div>
 
-                        {/* Character Image (Breathe Effect) */}
                         <div className={`md:absolute pointer-events-none transition-all duration-1000 z-10 ${char.pos}`}>
                             <img key={active} src={baseUrl + char.main} className="h-full w-auto object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.9)] char-breathe" />
                         </div>
                     </div>
 
-                    {/* FOOTER QUOTES */}
                     <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
                         <div className="h-[2px] w-24 md:w-48 bg-white/20 mb-10"></div>
                         <div key={active + "-quote"} className="flex flex-col items-center gap-6">
+                            {/* PERBAIKAN 3: Menambahkan drop-shadow-2xl agar teks Kanji lebih terlihat */}
                             <p className="font-bold text-2xl md:text-4xl text-white leading-relaxed slide-in-left px-4 drop-shadow-2xl" style={{ fontFamily: 'Noto Serif JP' }}>
                                 {char.quoteJp}
                             </p>
